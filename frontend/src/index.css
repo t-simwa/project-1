@@ -48,5 +48,97 @@
   .card-hover {
     @apply transition-all duration-300 hover:shadow-coursera-2 hover:-translate-y-1;
   }
+
+  /* Coursera Header Exact Styles */
+  .rc-GlobalPageHeaderContainer {
+    position: relative;
+  }
+
+  /* Black Nav Bar Styles - Exact Coursera */
+  .css-j6ha89 {
+    display: flex;
+    align-items: center;
+    height: 40px;
+  }
+
+  .css-f31nvc {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 24px;
+  }
+
+  .css-1dswftd {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .css-12x0a78,
+  .css-1m1g454 {
+    color: #ffffff !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s ease;
+  }
+
+  .css-12x0a78:hover,
+  .css-1m1g454:hover {
+    color: rgba(255, 255, 255, 0.7) !important;
+    text-decoration: none;
+  }
+
+  .css-1rkctw9 {
+    color: rgba(255, 255, 255, 0.6);
+    margin-right: 4px;
+  }
+
+  /* Main Header Styles */
+  .css-1pf5qcx {
+    width: 100%;
+  }
+
+  .css-o6cx9a {
+    width: 100%;
+  }
+
+  .css-az8ufr {
+    width: 100%;
+  }
+
+  .css-1l23jbm {
+    width: 100%;
+  }
+
+  /* CDS Classes - Coursera Design System */
+  .cds-119 {
+    margin: 0;
+  }
+
+  .cds-113 {
+    text-decoration: none;
+  }
+
+  .cds-115 {
+    text-decoration: none;
+  }
+
+  .cds-115:hover {
+    text-decoration: underline;
+  }
+
+  .cds-142 {
+    color: #3f51b5;
+  }
+
+  .forStyle {
+    color: rgba(255, 255, 255, 0.6);
+  }
 }
 
