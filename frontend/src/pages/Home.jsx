@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
@@ -43,10 +43,44 @@ const Home = () => {
   ];
 
   const partners = [
-    "Google", "DeepLearning.AI", "Stanford University", "IBM", 
-    "University of Pennsylvania", "Microsoft", "University of Michigan", 
-    "Meta", "Adobe", "Vanderbilt", "Amazon Web Services"
+    { name: "Google", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera-university-assets.s3.amazonaws.com/4a/cb36835ae3421187080898a7ecc11d/Google-G_360x360.png?auto=format%2Ccompress&dpr=1", href: "https://www.coursera.org/google-career-certificates" },
+    { name: "DeepLearning.AI", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera-university-assets.s3.amazonaws.com/b4/5cb90bb92f420b99bf323a0356f451/Icon.png?auto=format%2Ccompress&dpr=1", href: "https://www.coursera.org/explore/deep-learning-ai-online-courses" },
+    { name: "Stanford University", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://images.ctfassets.net/00atxywtfxvd/1s6p4WQHsv79stjgyiWBtI/d55f3608a884d6d1e48f78935b73362f/3c8a16b167a785920d061664a6512c3a60cdb30e.png?auto=format%2Ccompress&dpr=1", href: "https://www.coursera.org/explore/stanford-online-courses" },
+    { name: "IBM", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://images.ctfassets.net/wp1lcwdav1p1/3toC4I7jbWxiedfxiyNjtT/735faeaf976a9692f425f8c3a7d125dc/1000px-IBM_logo.svg.png?auto=format%2Ccompress&dpr=1", href: "https://www.coursera.org/explore/ibm-online-courses" },
+    { name: "University of Pennsylvania", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://images.ctfassets.net/00atxywtfxvd/3Y7rH8FUwg4eai7LK5j9u3/880203b6e241e81112bf48f252ca8e72/Penn-badge.png?auto=format%2Ccompress&dpr=1", href: "https://www.coursera.org/explore/university-of-pennsylvania-online-courses" },
+    { name: "Microsoft", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://images.ctfassets.net/00atxywtfxvd/11pJTA8yOZPwVRMKnSKPRz/340cf59915e8ce0d3b993d39959972d6/eded33b5eb1694336861de4bfda6d36bf72b7780.png?auto=format%2Ccompress&dpr=1", href: "https://www.coursera.org/explore/microsoft-certificates" },
+    { name: "University of Michigan", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://images.ctfassets.net/wp1lcwdav1p1/60SA8pGxPXMmJf4n7umK1H/ccec31bbe2358210bf8391dcba6cd2f1/umich.png?auto=format%2Ccompress&dpr=1", href: "https://www.coursera.org/explore/university-of-michigan-online-courses" },
+    { name: "Meta", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://images.ctfassets.net/00atxywtfxvd/4UiGf0SnbrHmjWznsuTnQc/3a567e1c87d81f44de01a7659776c8a9/1148622b99ae74a78e3984d7955d16587e365616.png?auto=format%2Ccompress&dpr=1", href: "https://www.coursera.org/explore/meta-online-courses" },
+    { name: "Adobe", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera-university-assets.s3.amazonaws.com/d9/7ac5ee1c0247dab299ec6a8343f16d/Adobe-A-square.png?auto=format%2Ccompress&dpr=1", href: "https://www.coursera.org/explore/adobe-hub-page" },
+    { name: "Vanderbilt", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://images.ctfassets.net/00atxywtfxvd/2xT8bRd5zUzh26boQdnz6/ad837efbdcb2bca5ae3b728fb16814a4/image__1_.png?auto=format%2Ccompress&dpr=1", href: "https://www.coursera.org/explore/vanderbilt-university-online-courses" },
+    { name: "Amazon Web Services", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera-university-assets.s3.amazonaws.com/a4/7cd68a658840ddbb95c38cdd0bbc8e/aws-logo-icon-PNG-Transparent-Background.png?auto=format%2Ccompress&dpr=1", href: "https://www.coursera.org/partners/aws" }
   ];
+
+  const partnersPerView = 6;
+  const carouselRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const updateScrollButtons = useCallback(() => {
+    if (carouselRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  }, []);
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (carousel) {
+      updateScrollButtons();
+      carousel.addEventListener('scroll', updateScrollButtons);
+      window.addEventListener('resize', updateScrollButtons);
+      return () => {
+        carousel.removeEventListener('scroll', updateScrollButtons);
+        window.removeEventListener('resize', updateScrollButtons);
+      };
+    }
+  }, [updateScrollButtons]);
 
   // Category icon components
   const CategoryIcon = ({ name }) => {
@@ -442,20 +476,86 @@ const Home = () => {
       </section>
 
       {/* Partners Section */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-coursera mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-semibold text-center mb-8 md:mb-12 text-text-primary">
-            Learn from 350+ leading universities and companies
-          </h2>
-          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 lg:gap-12">
-            {partners.map((partner, index) => (
-              <div
-                key={index}
-                className="text-text-secondary font-semibold text-sm md:text-base hover:text-primary transition-colors"
-              >
-                {partner}
+      <section className="css-dwgey1">
+        <div className="cds-1 css-1cxrrkn cds-2 cds-7">
+          <div className="cds-9 css-1kspkkz cds-10">
+            <div className="cds-9 css-nx9yyw cds-11 cds-grid-item cds-56">
+              <h2 className="css-qr3iog">Learn from 350+ leading universities and companies</h2>
+              <div>
+                <div data-testid="overflow-carousel" className="css-10ucyq6">
+                  <div className="css-tnzxuv">
+                    <div 
+                      ref={carouselRef}
+                      className="css-o8dtkr" 
+                      data-testid="overflow-carousel-content" 
+                      role="list"
+                    >
+                      {partners.map((partner, index) => (
+                        <div key={index} role="listitem" style={{ flexShrink: 0 }}>
+                          <a 
+                            className="cds-149 cds-Pill-root css-mealam" 
+                            tabIndex={0} 
+                            aria-disabled="false" 
+                            href={partner.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <img 
+                              src={partner.image} 
+                              srcSet={`${partner.image.replace('dpr=1', 'dpr=2')} 2x, ${partner.image.replace('dpr=1', 'dpr=3')} 3x`}
+                              className="css-s0s7fh" 
+                              width="24" 
+                              height="24" 
+                              alt=""
+                            />
+                            <span className="css-xfcwga">{partner.name}</span>
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <button 
+                    className="cds-149 css-hsnj4e" 
+                    tabIndex={0} 
+                    type="button"
+                    onClick={() => {
+                      if (carouselRef.current) {
+                        const scrollAmount = carouselRef.current.clientWidth * 0.8;
+                        carouselRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                      }
+                    }}
+                    disabled={!canScrollLeft}
+                  >
+                    <svg aria-hidden="true" fill="none" focusable="false" height="24" viewBox="0 0 20 20" width="24" className="css-1u8qly9">
+                      <path d="M9.125 10l3.417 3.417a.73.73 0 010 1.062.73.73 0 01-1.07-.007l-3.951-3.951a.755.755 0 01-.208-.525c0-.1.017-.194.052-.281a.691.691 0 01.156-.236l3.951-3.951a.73.73 0 011.07-.007.73.73 0 010 1.062L9.125 10z" fill="currentColor"></path>
+                    </svg>
+                    <div data-testid="visually-hidden" className="css-1whdyhf">Previous</div>
+                  </button>
+                  <button 
+                    className="cds-149 css-evv28a" 
+                    tabIndex={0} 
+                    type="button"
+                    onClick={() => {
+                      if (carouselRef.current) {
+                        const scrollAmount = carouselRef.current.clientWidth * 0.8;
+                        carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                      }
+                    }}
+                    disabled={!canScrollRight}
+                  >
+                    <svg aria-hidden="true" fill="none" focusable="false" height="24" viewBox="0 0 20 20" width="24" className="css-1u8qly9">
+                      <path d="M10.875 10L7.458 6.583a.73.73 0 010-1.062.73.73 0 011.07.007l3.951 3.951a.756.756 0 01.208.525.69.69 0 01-.208.517l-3.951 3.951a.693.693 0 01-.528.226.759.759 0 01-.52-.24.73.73 0 010-1.062L10.874 10z" fill="currentColor"></path>
+                    </svg>
+                    <div data-testid="visually-hidden" className="css-1whdyhf">Next</div>
+                  </button>
+                  <div data-testid="visually-hidden" className="css-stagee">
+                    <div aria-live="polite" aria-atomic="true">
+                      <span>Displaying items #1 to #{partnersPerView}, out of a total of {partners.length} items.</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
