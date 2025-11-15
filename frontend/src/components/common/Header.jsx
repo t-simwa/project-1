@@ -1,129 +1,138 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
 const Header = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/browse?search=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="bg-white border-b border-neutral-border sticky top-0 z-50">
+      <nav className="max-w-coursera mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-bold text-indigo-600">LocalSkill</span>
-            <span className="text-gray-600">Exchange</span>
+            <span className="text-2xl font-bold text-primary">LocalSkill Exchange</span>
           </Link>
 
+          {/* Search Bar - Desktop */}
+          <div className="hidden lg:flex flex-1 max-w-md mx-8">
+            <form onSubmit={handleSearch} className="w-full relative">
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-text-secondary" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="What do you want to learn?"
+                className="w-full pl-10 pr-4 py-2 border border-neutral-border rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+              />
+            </form>
+          </div>
+
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link to="/browse" className="text-gray-700 hover:text-indigo-600 transition-colors" aria-label="Browse skills">
-              Browse Skills
+          <div className="hidden md:flex items-center space-x-6">
+            <Link to="/browse" className="text-text-secondary hover:text-primary transition-colors text-sm font-medium" aria-label="Explore">
+              Explore
             </Link>
             
             {isAuthenticated ? (
               <>
-                <Link to="/create-listing" className="text-gray-700 hover:text-indigo-600 transition-colors" aria-label="Create listing">
-                  Teach a Skill
+                <Link to="/dashboard" className="text-text-secondary hover:text-primary transition-colors text-sm font-medium" aria-label="Dashboard">
+                  My Learning
                 </Link>
-                <Link to="/dashboard" className="text-gray-700 hover:text-indigo-600 transition-colors" aria-label="Dashboard">
-                  Dashboard
-                </Link>
-                <Link to="/messages" className="text-gray-700 hover:text-indigo-600 transition-colors" aria-label="Messages">
-                  Messages
-                </Link>
-                {user?.role === 'admin' && (
-                  <Link to="/admin" className="text-gray-700 hover:text-indigo-600 transition-colors">
-                    Admin
-                  </Link>
-                )}
                 <Link to={`/profile/${user?.id}`} className="flex items-center space-x-2">
                   {user?.avatar ? (
                     <img src={user.avatar} alt={user.name} className="w-8 h-8 rounded-full" />
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-medium">
+                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-semibold">
                       {user?.name?.charAt(0).toUpperCase()}
                     </div>
                   )}
-                  <span className="text-gray-700">{user?.name}</span>
                 </Link>
-                <button
-                  onClick={handleLogout}
-                  className="btn btn-ghost"
-                >
-                  Logout
-                </button>
               </>
             ) : (
               <>
-                <Link to="/login" className="btn btn-ghost">
-                  Login
+                <Link to="/login" className="text-text-secondary hover:text-primary transition-colors text-sm font-medium">
+                  Log In
                 </Link>
                 <Link to="/register" className="btn btn-primary">
-                  Sign Up
+                  Join for Free
                 </Link>
               </>
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <XMarkIcon className="h-6 w-6" />
-            ) : (
-              <Bars3Icon className="h-6 w-6" />
-            )}
-          </button>
+          {/* Mobile Search & Menu */}
+          <div className="md:hidden flex items-center space-x-2">
+            <button
+              className="p-2 rounded-md text-text-secondary hover:bg-neutral-gray"
+              onClick={() => navigate('/browse')}
+              aria-label="Search"
+            >
+              <MagnifyingGlassIcon className="h-6 w-6" />
+            </button>
+            <button
+              className="p-2 rounded-md text-text-secondary hover:bg-neutral-gray"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Menu"
+            >
+              {mobileMenuOpen ? (
+                <XMarkIcon className="h-6 w-6" />
+              ) : (
+                <Bars3Icon className="h-6 w-6" />
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 space-y-4">
+          <div className="md:hidden py-4 border-t border-neutral-border space-y-4">
+            <form onSubmit={handleSearch} className="relative">
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-text-secondary" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="What do you want to learn?"
+                className="w-full pl-10 pr-4 py-2 border border-neutral-border rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+              />
+            </form>
             <Link
               to="/browse"
-              className="block text-gray-700 hover:text-indigo-600 transition-colors"
+              className="block text-text-secondary hover:text-primary transition-colors font-medium"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Browse Skills
+              Explore
             </Link>
             
             {isAuthenticated ? (
               <>
                 <Link
-                  to="/create-listing"
-                  className="block text-gray-700 hover:text-indigo-600 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Teach a Skill
-                </Link>
-                <Link
                   to="/dashboard"
-                  className="block text-gray-700 hover:text-indigo-600 transition-colors"
+                  className="block text-text-secondary hover:text-primary transition-colors font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Dashboard
-                </Link>
-                <Link
-                  to="/messages"
-                  className="block text-gray-700 hover:text-indigo-600 transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Messages
+                  My Learning
                 </Link>
                 <Link
                   to={`/profile/${user?.id}`}
-                  className="block text-gray-700 hover:text-indigo-600 transition-colors"
+                  className="block text-text-secondary hover:text-primary transition-colors font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Profile
@@ -133,26 +142,26 @@ const Header = () => {
                     handleLogout();
                     setMobileMenuOpen(false);
                   }}
-                  className="block w-full text-left text-gray-700 hover:text-indigo-600 transition-colors"
+                  className="block w-full text-left text-text-secondary hover:text-primary transition-colors font-medium"
                 >
-                  Logout
+                  Log Out
                 </button>
               </>
             ) : (
               <>
                 <Link
                   to="/login"
-                  className="block text-gray-700 hover:text-indigo-600 transition-colors"
+                  className="block text-text-secondary hover:text-primary transition-colors font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Login
+                  Log In
                 </Link>
                 <Link
                   to="/register"
-                  className="block text-gray-700 hover:text-indigo-600 transition-colors"
+                  className="block btn btn-primary text-center"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Sign Up
+                  Join for Free
                 </Link>
               </>
             )}

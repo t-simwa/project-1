@@ -87,14 +87,14 @@ function App() {
     <ErrorBoundary>
       <AuthProvider>
         <Router>
-          <div className="min-h-screen flex flex-col">
+          <s-page size="large">
             <Header />
-            <main className="flex-grow">
+            <main>
               <AppRoutes />
             </main>
             <Footer />
             <Toaster position="top-right" />
-          </div>
+          </s-page>
         </Router>
       </AuthProvider>
     </ErrorBoundary>
