@@ -1,0 +1,91 @@
+{
+  "heroCards": [],
+  "categories": [
+    "Business",
+    "Artificial Intelligence",
+    "Data Science",
+    "Computer Science",
+    "Information Technology",
+    "Personal Development",
+    "Healthcare",
+    "Language Learning",
+    "Social Sciences",
+    "Arts and Humanities",
+    "Physical Science and Engineering",
+    "Math and Logic"
+  ],
+  "partners": [
+    "Google",
+    "DeepLearning.AI",
+    "Stanford University",
+    "IBM",
+    "University of Pennsylvania",
+    "Microsoft",
+    "University of Michigan",
+    "Meta",
+    "Adobe",
+    "Vanderbilt",
+    "Amazon Web Services"
+  ],
+  "testimonials": [
+    {
+      "name": "Sarah W.",
+      "quote": "Coursera's reputation for high-quality content, paired with its flexible structure, made it possible for me to dive into data analytics while managing family, health, and everyday life."
+    },
+    {
+      "name": "Noeris B.",
+      "quote": "Coursera rebuilt my confidence and showed me I could dream bigger. It wasn't just about gaining knowledge—it was about believing in my potential again."
+    },
+    {
+      "name": "Abdullahi M.",
+      "quote": "I now feel more prepared to take on leadership roles and have already started mentoring some of my colleagues."
+    },
+    {
+      "name": "Anas A.",
+      "quote": "Learning with Coursera has expanded my professional expertise by giving me access to cutting-edge research, practical tools, and global perspectives."
+    }
+  ],
+  "sections": [
+    {
+      "name": "Hero",
+      "heading": "Learn without limits",
+      "type": "carousel",
+      "cards": 0
+    },
+    {
+      "name": "Career Paths",
+      "heading": "Launch a new career / Gain in-demand skills / Earn a degree",
+      "type": "three-column"
+    },
+    {
+      "name": "Partners",
+      "heading": "Learn from 350+ leading universities and companies",
+      "type": "logo-grid"
+    },
+    {
+      "name": "Trending Courses",
+      "heading": "Trending courses",
+      "type": "course-grid"
+    },
+    {
+      "name": "Categories",
+      "heading": "Explore categories",
+      "type": "category-grid"
+    },
+    {
+      "name": "What Brings You",
+      "heading": "What brings you to Coursera today?",
+      "type": "four-options"
+    },
+    {
+      "name": "Most Popular",
+      "heading": "Most popular by category",
+      "type": "course-grid"
+    },
+    {
+      "name": "Testimonials",
+      "heading": "Why people choose Coursera",
+      "type": "testimonial-grid"
+    }
+  ]
+}

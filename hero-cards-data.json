@@ -1,0 +1,38 @@
+[
+  {
+    "headline": "Enjoy the gift of unlimited learning",
+    "description": "Get 40% off access to 10,000+ programs from Google, Adobe, IBM, Microsoft, and more.",
+    "ctaText": "Save on Coursera Plus",
+    "ctaTarget": "https:\\u002F\\u002Fwww.coursera.org\\u002Fcourseraplus\\u002Fspecial\\u002Fglobal-40-off-nov-2025 ",
+    "backgroundColor": "light-green",
+    "image": {
+      "desktop": "https://images.ctfassets.net/00atxywtfxvd/x2ncAFLAjCgG2mPQTiuT1/59d07c69d283d0c9c941212436399be2/Non-NAMER_40-_off_LOHP-Desktop-330x304.png",
+      "mobile": "https://images.ctfassets.net/00atxywtfxvd/gpcRrw5Y0qOaww4liPYpQ/59561d03d750b89b0a7f5065e2b69567/Non-NAMER_40-_off_LOHP-Mobile-242x138.png",
+      "eyebrow": "https://images.ctfassets.net/00atxywtfxvd/7rJLBhLIFG5ZTss6mYJ2vj/6040ccb86b45a0f0deb1a16d1f42b35c/courseraplus-blue.png"
+    }
+  },
+  {
+    "headline": "Train your team in top skills and join 4,500+ teams worldwide",
+    "description": "",
+    "ctaText": "Save 40% off team training",
+    "ctaTarget": "https:\\u002F\\u002Fwww.coursera.org\\u002Fbusiness\\u002Fteams?promoCode=nov40-2025&utm_medium=coursera&utm_source=home-page&utm_campaign=2025-nov-promo&utm_content=hero-cta&utm_term=control",
+    "backgroundColor": "primary-blue-xxstrong",
+    "image": {
+      "desktop": "https://images.ctfassets.net/00atxywtfxvd/6eMc1Z2mJMjJa574xDOyfe/32883c1b79ab57ab4620f881058d10e9/WES_40-off_LOHP_Desktop-330x304-Dark.png",
+      "mobile": "https://images.ctfassets.net/00atxywtfxvd/1epCNRu1dx3bINPJjYVyoA/5679f917f00723485f39e0c9fd09ba03/WES_40-off_LOHP_Mobile-242x138-Dark.png",
+      "eyebrow": "https://images.ctfassets.net/00atxywtfxvd/5QULjGwNJ5GSRz4HmpMEsv/46a5520c689eccbc33dd30b9942070f0/coursera_for_business.png"
+    }
+  },
+  {
+    "headline": "Start, switch, or advance your career",
+    "description": "Grow with 10,000+ courses from top organizations",
+    "ctaText": "Join for Free",
+    "ctaTarget": "sign-in-modal",
+    "backgroundColor": "tertiary-yellow-xweak",
+    "image": {
+      "desktop": "https://images.ctfassets.net/00atxywtfxvd/3S3B2Fkv9RzncshAU3v44W/035cedad8f6ab1cc7e9986d0045371e4/JoinForFreeDesktop.png",
+      "mobile": "https://images.ctfassets.net/00atxywtfxvd/58sXhT0eBFnK0e9mLWlX3s/6f85590688efbd2e07a687a54bbbbbb8/JoinForFreeMobile.png",
+      "eyebrow": null
+    }
+  }
+]
