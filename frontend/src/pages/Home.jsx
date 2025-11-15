@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
+import { useState, useEffect, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 const Home = () => {
+  const navigate = useNavigate();
   const [currentHeroSlide, setCurrentHeroSlide] = useState(0);
 
   const heroSlides = [
@@ -136,9 +137,9 @@ const Home = () => {
   ];
 
   const careerPaths = [
-    { title: "Launch a new career", description: "Build job-ready skills" },
-    { title: "Gain in-demand skills", description: "Stay ahead of the curve" },
-    { title: "Earn a degree", description: "Advance your education" },
+    { title: "Launch a new career", href: "/career-academy", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera_assets.s3.amazonaws.com/images/92c4547dc4ee8b3cf2803fa0f315bd74.svg?auto=format%2Ccompress&dpr=1" },
+    { title: "Gain in-demand skills", href: "/browse", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera_assets.s3.amazonaws.com/images/3965428b288078a92c4e881713caee10.svg?auto=format%2Ccompress&dpr=1" },
+    { title: "Earn a degree", href: "/degrees", image: "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera_assets.s3.amazonaws.com/images/c7f7f2f130d025a6b86eb174d31d47db.svg?auto=format%2Ccompress&dpr=1" },
   ];
 
   const whatBringsYou = [
@@ -167,13 +168,22 @@ const Home = () => {
     },
   ];
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrentHeroSlide((prev) => (prev + 1) % heroSlides.length);
-  };
+  }, [heroSlides.length]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     setCurrentHeroSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
-  };
+  }, [heroSlides.length]);
+
+  // Auto-play carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [nextSlide]);
 
   // Keyboard navigation for carousel
   const handleKeyDown = (e) => {
@@ -210,127 +220,223 @@ const Home = () => {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative bg-white py-12 md:py-16 lg:py-20">
-        <div className="max-w-coursera mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-display-sm font-semibold text-center mb-8 md:mb-12 text-text-primary">
-            Learn without limits
-          </h1>
-          
-          {/* Hero Carousel */}
-          <div 
-            className="relative max-w-5xl mx-auto"
-            onKeyDown={handleKeyDown}
-            tabIndex={0}
-            role="region"
-            aria-label="Hero carousel"
-          >
-            <div 
-              className="overflow-hidden rounded-coursera-xl"
-              aria-live="polite"
-              aria-atomic="true"
-            >
-              <div 
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{ transform: `translateX(-${currentHeroSlide * 100}%)` }}
-              >
-                {heroSlides.map((slide, index) => (
+      {/* Modern Hero Carousel Section */}
+      <section 
+        className="relative pt-4 md:pt-6 lg:pt-8 pb-4 md:pb-6 lg:pb-8"
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        role="region"
+        aria-label="Hero carousel"
+      >
+        {/* Outer Container - matches header width - Change width value below (use '100%' for responsive, or specific px value) */}
+        <div className="mx-auto px-4 sm:px-6 lg:px-8" style={{ width: '3000px', maxWidth: '100%' }}>
+          {/* Inner Container - carousel content area - Change width value below */}
+          <div className="relative h-[276px] md:h-[304px]" style={{ width: '3000px', maxWidth: '100%' }}>
+          {/* Carousel Slides */}
+          <div className="relative w-full h-full">
+            {heroSlides.map((slide, index) => {
+              const isActive = index === currentHeroSlide;
+              const slideClasses = `
+                absolute inset-0 transition-all duration-700 ease-in-out
+                ${isActive ? 'opacity-100 translate-x-0 z-10' : 'opacity-0 translate-x-4 z-0'}
+              `;
+
+              // Determine card class based on slide index (matching Coursera)
+              const cardClass = index === 0 ? "css-9evtfe" : index === 1 ? "css-1ga2jkv" : "css-gobzba";
+
+              return (
                   <div
                     key={index}
-                    className={`min-w-full ${slide.backgroundColor} ${slide.textColor} rounded-coursera-xl p-6 md:p-8 lg:p-12 grid md:grid-cols-2 gap-6 md:gap-8 items-center relative`}
+                  className={slideClasses}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`Slide ${index + 1} of ${heroSlides.length}`}
                   >
-                    <div className="order-2 md:order-1">
+                  <div className="css-1odq4va">
+                    <div className={cardClass}>
+                      {/* Text Content Section */}
+                      <div className="css-l88zs4">
                       {slide.eyebrowImage && (
+                          <div>
                         <img 
                           src={slide.eyebrowImage} 
                           alt="" 
-                          className="h-5 mb-4"
+                              style={{maxWidth: '100%', maxHeight: '20px', height: 'auto', borderRadius: 0}}
                         />
+                          </div>
                       )}
-                      <h2 className="text-2xl md:text-3xl lg:text-title-md font-semibold mb-3 md:mb-4">
-                        {slide.headline}
-                      </h2>
+                        <h2 className="css-4fk9z4">{slide.headline}</h2>
                       {slide.description && (
-                        <p className="text-base md:text-lg mb-6 opacity-90">
-                          {slide.description}
-                        </p>
-                      )}
+                          <p className="css-1rcwhif">{slide.description}</p>
+                        )}
+                        <div>
+                          {index === 2 ? (
+                            <button
+                              onClick={() => navigate(slide.ctaLink)}
+                              className="cds-149 cds-button-disableElevation cds-button-primary css-1s18ihl"
+                              tabIndex={0}
+                              role="button"
+                              type="button"
+                            >
+                              <span className="cds-button-label">
+                                {slide.ctaText}
+                                <span className="cds-button-endIcon">
+                                  <svg aria-hidden="true" fill="none" focusable="false" height="20" viewBox="0 0 20 20" width="20" className="css-1u8qly9">
+                                    <path d="M13.125 10.75H4.75a.728.728 0 01-.535-.214.72.72 0 01-.215-.532c0-.21.072-.39.215-.535a.72.72 0 01.535-.219h8.375L9.454 5.579a.721.721 0 01-.225-.527c0-.201.077-.382.23-.541a.745.745 0 011.058.006l4.954 4.96a.722.722 0 01.216.526.76.76 0 01-.052.282.692.692 0 01-.156.236l-4.958 4.958a.681.681 0 01-.521.219.776.776 0 01-.52-.23.766.766 0 01-.23-.544.71.71 0 01.23-.528l3.645-3.646z" fill="currentColor"></path>
+                                  </svg>
+                                </span>
+                              </span>
+                            </button>
+                          ) : (
                       <Link
                         to={slide.ctaLink}
-                        className={`btn inline-flex items-center ${
-                          slide.textColor === 'text-white' 
-                            ? 'bg-white text-hero-primary-blue-xxstrong hover:bg-gray-100' 
-                            : 'btn-primary'
-                        }`}
-                      >
+                              className={`cds-149 cds-button-disableElevation ${index === 0 ? 'cds-button-primary css-1oi65e9' : 'cds-button-secondary css-1q0pagw'}`}
+                              tabIndex={0}
+                            >
+                              <span className="cds-button-label">
                         {slide.ctaText}
-                        <ChevronRightIcon className="ml-2 h-4 w-4" />
+                                <span className="cds-button-endIcon">
+                                  <svg aria-hidden="true" fill="none" focusable="false" height="20" viewBox="0 0 20 20" width="20" className="css-1u8qly9">
+                                    <path d="M13.125 10.75H4.75a.728.728 0 01-.535-.214.72.72 0 01-.215-.532c0-.21.072-.39.215-.535a.72.72 0 01.535-.219h8.375L9.454 5.579a.721.721 0 01-.225-.527c0-.201.077-.382.23-.541a.745.745 0 011.058.006l4.954 4.96a.722.722 0 01.216.526.76.76 0 01-.052.282.692.692 0 01-.156.236l-4.958 4.958a.681.681 0 01-.521.219.776.776 0 01-.52-.23.766.766 0 01-.23-.544.71.71 0 01.23-.528l3.645-3.646z" fill="currentColor"></path>
+                                  </svg>
+                                </span>
+                              </span>
                       </Link>
+                          )}
+                        </div>
                     </div>
-                    <div className="order-1 md:order-2 flex justify-center md:justify-end">
+
+                      {/* Desktop Image */}
+                      <div className="css-1g0whav">
                       <img 
                         src={slide.desktopImage} 
                         alt={slide.headline}
-                        className="hidden md:block max-w-full h-auto"
-                        loading="eager"
+                          style={{maxWidth: '100%', maxHeight: '608px', height: 'auto', borderRadius: 0}}
                       />
+                      </div>
+
+                      {/* Mobile Image */}
+                      <div className="css-gm91l9">
                       <img 
                         src={slide.mobileImage} 
                         alt={slide.headline}
-                        className="md:hidden max-w-full h-auto"
-                        loading="eager"
+                          style={{maxWidth: '100%', maxHeight: '276px', height: 'auto', borderRadius: 0}}
                       />
+                      </div>
                     </div>
                   </div>
-                ))}
               </div>
+              );
+            })}
             </div>
             
-            {/* Carousel Controls */}
+          {/* Navigation Arrows - Outside Carousel */}
             <button
               onClick={prevSlide}
-              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-coursera-2 hover:shadow-coursera-3 transition-shadow z-10"
+            className={`
+              absolute -left-4 md:-left-6 lg:-left-8 top-1/2 -translate-y-1/2 z-30
+              flex items-center justify-center
+              transition-all duration-300
+              hover:opacity-80 hover:scale-110
+              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded
+              ${currentHeroSlide === 0 ? 'opacity-50 cursor-not-allowed' : 'opacity-100'}
+            `}
               aria-label="Previous slide"
+            disabled={currentHeroSlide === 0}
             >
-              <ChevronLeftIcon className="h-5 w-5 md:h-6 md:w-6 text-text-primary" />
+            <ChevronLeftIcon className="w-5 h-5 md:w-6 md:h-6 text-gray-800" />
             </button>
+
             <button
               onClick={nextSlide}
-              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-coursera-2 hover:shadow-coursera-3 transition-shadow z-10"
+            className={`
+              absolute -right-4 md:-right-6 lg:-right-8 top-1/2 -translate-y-1/2 z-30
+              flex items-center justify-center
+              transition-all duration-300
+              hover:opacity-80 hover:scale-110
+              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded
+              ${currentHeroSlide === heroSlides.length - 1 ? 'opacity-50 cursor-not-allowed' : 'opacity-100'}
+            `}
               aria-label="Next slide"
+            disabled={currentHeroSlide === heroSlides.length - 1}
             >
-              <ChevronRightIcon className="h-5 w-5 md:h-6 md:w-6 text-text-primary" />
+            <ChevronRightIcon className="w-5 h-5 md:w-6 md:h-6 text-gray-800" />
             </button>
             
-            {/* Carousel Indicators */}
-            <div className="flex justify-center gap-2 mt-6">
+          {/* Pagination Dots */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-3">
               {heroSlides.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentHeroSlide(index)}
-                  className={`h-2 rounded-full transition-all ${
-                    index === currentHeroSlide
-                      ? 'w-8 bg-primary'
-                      : 'w-2 bg-neutral-border'
-                  }`}
+                className={`
+                  transition-all duration-300 rounded-full
+                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                  ${index === currentHeroSlide
+                    ? 'w-10 h-3 bg-blue-600 shadow-lg scale-110'
+                    : 'w-3 h-3 bg-gray-300 hover:bg-gray-400 hover:scale-110'
+                  }
+                `}
                   aria-label={`Go to slide ${index + 1}`}
+                aria-current={index === currentHeroSlide ? 'true' : 'false'}
                 />
               ))}
             </div>
+
+          {/* Progress Bar */}
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-200 z-20">
+            <div 
+              className="h-full bg-blue-600 transition-all duration-5000 ease-linear"
+              style={{ 
+                width: `${((currentHeroSlide + 1) / heroSlides.length) * 100}%`,
+                transition: 'width 5s linear'
+              }}
+            />
+          </div>
           </div>
         </div>
       </section>
 
       {/* Career Paths Section */}
-      <section className="py-12 md:py-16 bg-neutral-gray">
-        <div className="max-w-coursera mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            {careerPaths.map((path, index) => (
-              <div key={index} className="text-center">
-                <h3 className="text-xl md:text-2xl font-semibold mb-2 text-text-primary">{path.title}</h3>
-                <p className="text-text-secondary">{path.description}</p>
+      <section className="css-dwgey1">
+        <div className="cds-1 css-1cxrrkn cds-2 cds-7">
+          <div className="cds-9 css-1kspkkz cds-10">
+            <div className="cds-9 css-nx9yyw cds-11 cds-grid-item cds-56">
+              <div data-testid="overflow-carousel" className="css-19emm9i">
+                <div className="css-tnzxuv">
+                  <div className="css-hn3k99" data-testid="overflow-carousel-content" role="list">
+                    {careerPaths.map((path, index) => (
+                      <div key={index} role="listitem">
+                        <div className="css-2rvn9v">
+                          <a className="cds-119 cds-113 cds-115 css-dc4cli cds-142" href={path.href}>
+                            <div data-testid="visually-hidden" className="css-1whdyhf">{path.title}</div>
+                            <h2 className="css-1gcty4z" aria-hidden="true">{path.title}</h2>
+                            <img 
+                              src={path.image} 
+                              srcSet={`${path.image}?auto=format%2Ccompress&dpr=2 2x, ${path.image}?auto=format%2Ccompress&dpr=3 3x`}
+                              className="css-11x1h9e" 
+                              alt=""
+                            />
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <button className="cds-149 css-hsnj4e" tabIndex={-1} type="button">
+                  <svg aria-hidden="true" fill="none" focusable="false" height="24" viewBox="0 0 20 20" width="24" className="css-1u8qly9">
+                    <path d="M9.125 10l3.417 3.417a.73.73 0 010 1.062.73.73 0 01-1.07-.007l-3.951-3.951a.755.755 0 01-.208-.525c0-.1.017-.194.052-.281a.691.691 0 01.156-.236l3.951-3.951a.73.73 0 011.07-.007.73.73 0 010 1.062L9.125 10z" fill="currentColor"></path>
+                  </svg>
+                  <div data-testid="visually-hidden" className="css-1whdyhf">Previous</div>
+                </button>
+                <button className="cds-149 css-upj1ld" tabIndex={-1} type="button">
+                  <svg aria-hidden="true" fill="none" focusable="false" height="24" viewBox="0 0 20 20" width="24" className="css-1u8qly9">
+                    <path d="M10.875 10L7.458 6.583a.73.73 0 010-1.062.73.73 0 011.07.007l3.951 3.951a.756.756 0 01.208.525.69.69 0 01-.208.517l-3.951 3.951a.693.693 0 01-.528.226.759.759 0 01-.52-.24.73.73 0 010-1.062L10.874 10z" fill="currentColor"></path>
+                  </svg>
+                  <div data-testid="visually-hidden" className="css-1whdyhf">Next</div>
+                </button>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>

@@ -65,7 +65,8 @@ export default {
         'coursera-3': '0px 0px 4px 0px rgba(15, 17, 20, 0.1), 0px 6px 12px 4px rgba(15, 17, 20, 0.1)',
       },
       maxWidth: {
-        'coursera': '1440px',
+        'coursera': '3000px',
+        'carousel': '3000px',
       },
     },
   },
