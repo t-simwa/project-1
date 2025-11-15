@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
   body {
     @apply bg-white text-text-primary;
     font-family: 'Source Sans Pro', Arial, sans-serif;
@@ -51,7 +58,29 @@
 
   /* Coursera Header Exact Styles */
   .rc-GlobalPageHeaderContainer {
-    position: relative;
+    font-family: 'Source Sans Pro', Arial, sans-serif;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    transition: transform 0.2s ease-in-out;
+    z-index: 3000;
+    background-color: #ffffff;
+  }
+  
+  .css-1ch79bo {
+    font-family: 'Source Sans Pro', Arial, sans-serif;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    transition: transform 0.2s ease-in-out;
+    z-index: 3000;
+    background-color: #ffffff;
   }
 
   /* Black Nav Bar Styles - Exact Coursera */
@@ -79,41 +108,134 @@
   .css-12x0a78,
   .css-1m1g454 {
     color: #ffffff !important;
-    text-decoration: none;
+    text-decoration: none !important;
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
     display: inline-flex;
     align-items: center;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
+    padding: 0 8px;
+    margin: 0 8px;
+    position: relative;
+    border-bottom: 6px solid transparent;
+    box-sizing: border-box;
+    height: 40px;
+    line-height: 40px;
   }
 
+  /* Hover state - white background with black text */
   .css-12x0a78:hover,
   .css-1m1g454:hover {
-    color: rgba(255, 255, 255, 0.7) !important;
-    text-decoration: none;
+    background: #ffffff !important;
+    color: #0f1114 !important;
+    text-decoration: none !important;
+  }
+
+  /* Active/Selected state (aria-current="page") - thick 6px border-bottom underline */
+  .css-12x0a78[aria-current="page"] {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    border-bottom: 6px solid #ffffff !important;
+    font-weight: 400;
+  }
+
+  .css-12x0a78[aria-current="page"]:hover {
+    background: #ffffff !important;
+    color: #0f1114 !important;
+    text-decoration: none !important;
+    border-bottom: 6px solid #ffffff !important;
   }
 
   .css-1rkctw9 {
     color: rgba(255, 255, 255, 0.6);
     margin-right: 4px;
+    font-weight: 400;
+  }
+
+  /* "For" prefix styling */
+  /* On hover - "For" becomes black */
+  .css-12x0a78:hover .css-1rkctw9,
+  .css-1m1g454:hover .css-1rkctw9 {
+    color: #0f1114;
+  }
+
+  /* When selected - "For" is bold and white */
+  .css-12x0a78[aria-current="page"] .css-1rkctw9 {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  /* When selected and hovered - "For" is bold and black */
+  .css-12x0a78[aria-current="page"]:hover .css-1rkctw9 {
+    color: #0f1114;
+    font-weight: 600;
+  }
+
+  /* Main text (e.g., "Individuals") - normal weight when selected, but link itself has 600 */
+  .css-12x0a78[aria-current="page"] {
+    font-weight: 600 !important;
+  }
+  
+  /* But the text after "For" should be normal weight */
+  .css-12x0a78[aria-current="page"] > span {
+    font-weight: 400;
+  }
+  
+  /* "For" prefix should be bold when selected */
+  .css-12x0a78[aria-current="page"] .css-1rkctw9 {
+    font-weight: 600 !important;
   }
 
   /* Main Header Styles */
   .css-1pf5qcx {
     width: 100%;
+    border-bottom: 1px solid #dae1ed;
   }
 
   .css-o6cx9a {
-    width: 100%;
+    position: relative;
+    top: 0;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    z-index: 999;
+  }
+  
+  @media (max-width: 1060px) {
+    .css-o6cx9a {
+      display: none;
+    }
   }
 
   .css-az8ufr {
-    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
   }
 
   .css-1l23jbm {
+    display: block;
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+  
+  @media (max-width: 1060px) {
+    .css-1l23jbm {
+      display: none;
+    }
+  }
+  
+  /* Main header height */
+  .css-1l23jbm header {
+    height: 64px;
     width: 100%;
+  }
+  
+  .css-1l23jbm header > div {
+    height: 100%;
   }
 
   /* CDS Classes - Coursera Design System */
@@ -140,5 +262,127 @@
   .forStyle {
     color: rgba(255, 255, 255, 0.6);
   }
+
+  /* Coursera Search Bar Styles - Exact Match */
+  .rc-SearchBar {
+    margin: 0;
+    width: 280px;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 1200px) {
+    .rc-SearchBar {
+      width: 440px;
+    }
+  }
+
+  @media (max-width: 1030px) {
+    .rc-SearchBar {
+      width: 100px;
+    }
+  }
+
+  @media (min-width: 1200px) and (max-width: 1492px) {
+    .rc-SearchBar {
+      width: 330px;
+    }
+  }
+
+  @media (min-width: 1528px) and (max-width: 1570px) {
+    .rc-SearchBar {
+      width: 400px;
+    }
+  }
+
+  .rc-SearchBar .search-form {
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .rc-SearchBar .magnifier-wrapper.left-magnifier {
+    display: flex;
+    padding-left: 8px;
+    height: 40px;
+    position: absolute;
+    left: 0;
+    align-items: center;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .rc-SearchBar .search-button {
+    height: 100%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+  }
+
+  .rc-SearchBar .search-button .magnifier-wrapper {
+    padding: 10px;
+    border-radius: 0 24px 24px 0;
+    background-color: #0056d2;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #5b6780;
+    border-left: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rc-SearchBar.isLohpRebrand .search-button .magnifier-wrapper {
+    background-color: #0056d2;
+  }
+
+  .rc-SearchBar #algolia-placeholder-search-input,
+  .rc-SearchBar .coursera-search-input {
+    width: calc(100% - 40px);
+    height: 40px;
+    padding: 0 10px 0 36px;
+    font-family: 'Source Sans Pro', Arial, sans-serif;
+    color: #0f1114;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 400;
+    box-shadow: none;
+    margin-bottom: 0;
+    border: solid #5b6780;
+    border-width: 1px;
+    border-right: none;
+    border-radius: 24px 0 0 24px;
+    background: #ffffff;
+    outline: none;
+  }
+
+  .rc-SearchBar #algolia-placeholder-search-input:focus,
+  .rc-SearchBar .coursera-search-input:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .rc-SearchBar #algolia-placeholder-search-input::placeholder,
+  .rc-SearchBar .coursera-search-input::placeholder {
+    color: #5b6780;
+    opacity: 1;
+    font-weight: 400;
+  }
+
+  @media (min-width: 768px) {
+    .rc-SearchBar #algolia-placeholder-search-input,
+    .rc-SearchBar .coursera-search-input {
+      padding: 0 10px 0 36px;
+    }
+  }
 }
+
 
